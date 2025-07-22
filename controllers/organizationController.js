@@ -1,34 +1,15 @@
-// const pool = require('../db');
-
-// exports.getAll = async (req, res) => {
-//   try {
-//     const result = await pool.query('SELECT * FROM "gim"."organization"');
-//     res.json(result.rows);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
-// exports.create = async (req, res) => {
-//   try {
-//     // customize based on schema if needed
-//     const result = await pool.query('INSERT INTO "gim"."organization" DEFAULT VALUES RETURNING *');
-//     res.status(201).json(result.rows[0]);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
-
-
 
 const pool = require('../db');
 
 // GET all
 exports.getAll = async (req, res) => {
   try {
+    const countResult = await pool.query('SELECT COUNT(*) FROM "gim"."organization"');
     const result = await pool.query('SELECT * FROM "gim"."organization"');
-    res.json(result.rows);
+    res.json({
+      totalCount: parseInt(countResult.rows[0].count, 10), // convert string to number
+      data: result.rows,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -48,77 +29,6 @@ exports.create = async (req, res) => {
   }
 };
 
-// UPDATE
-// exports.update = async (req, res) => {
-//   const { id } = req.params;
-//   const { name, code } = req.body;
-
-//   try {
-//     const result = await pool.query(
-//       `UPDATE "gim"."organization"
-//        SET name = $1, code = $2
-//        WHERE id = $3 RETURNING *`,
-//       [name, code, id]
-//     );
-
-//     if (result.rowCount === 0) {
-//       return res.status(404).json({ error: 'Organization not found' });
-//     }
-
-//     res.json(result.rows[0]);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
-// exports.update = async (req, res) => {
-//   const { gu_id } = req.params;
-
-//   const {
-//     organization_code,
-//     organization_type_id,
-//     o_name,
-//     is_o_visibility,
-//     is_public_visibility,
-//     vhost_id
-//   } = req.body;
-
-//   try {
-//     const result = await pool.query(
-//       `UPDATE "gim"."organization"
-//        SET
-//          organization_code = $1,
-//          organization_type_id = $2,
-//          o_name = $3,
-//          is_o_visibility = $4,
-//          is_public_visibility = $5,
-//          vhost_id = $6
-//        WHERE gu_id = $7
-//        RETURNING *`,
-//       [
-//         organization_code,
-//         organization_type_id,
-//         o_name,
-//         is_o_visibility,
-//         is_public_visibility,
-//         vhost_id,
-//         gu_id
-//       ]
-//     );
-
-//     if (result.rowCount === 0) {
-//       return res.status(404).json({ error: 'Organization not found' });
-//     }
-
-//     res.json({
-//       message: 'Organization updated successfully ✅',
-//       data: result.rows[0]
-//     });
-//   } catch (err) {
-//     console.error('Update error:', err);
-//     res.status(500).json({ error: err.message });
-//   }
-// };
 
 exports.update = async (req, res) => {
   const { gu_id } = req.params;
@@ -133,29 +43,9 @@ exports.update = async (req, res) => {
   } = req.body;
 
   try {
-    // const result = await pool.query(
-    //   `UPDATE "gim"."organization"
-    //    SET
-    //      organization_code = $1,
-    //      organization_type_id = $2,
-    //      o_name = $3,
-    //      is_o_visibility = $4,
-    //      is_public_visibility = $5,
-    //      vhost_id = $6 -- ✅ Correct column name
-    //    WHERE gu_id = $7
-    //    RETURNING *`,
-    //   [
-    //     organization_code,
-    //     organization_type_id,
-    //     o_name,
-    //     is_o_visibility,
-    //     is_public_visibility,
-    //     vhost_id, // ✅ Pass the correct value
-    //     gu_id
-    //   ]
-    // );
+
     const result = await pool.query(
-  `UPDATE "gim"."organization"
+      `UPDATE "gim"."organization"
    SET
      organization_code = $1,
      organization_type_id = $2,
@@ -165,16 +55,16 @@ exports.update = async (req, res) => {
      vhost_id = $6
    WHERE gu_id = $7
    RETURNING *`,
-  [
-    organization_code,
-    organization_type_id,
-    o_name,
-    is_o_visibility,
-    is_public_visibility,
-    parseInt(vhost_id) || null,
-    gu_id
-  ]
-);
+      [
+        organization_code,
+        organization_type_id,
+        o_name,
+        is_o_visibility,
+        is_public_visibility,
+        parseInt(vhost_id) || null,
+        gu_id
+      ]
+    );
 
 
     if (result.rowCount === 0) {

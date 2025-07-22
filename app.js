@@ -1,29 +1,11 @@
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const app = express();
-// const port = 3000;
-// app.use(bodyParser.json());
-// const routeFiles = ['country'];
-// routeFiles.forEach(route => {
-//   app.use(`/${route}`, require(`./routes/${route}`));
-// });
-// app.listen(port, () => {
-//   console.log(`API server running at http://localhost:${port}`);
-// });
-
-
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // ✅ import cors
+const cors = require('cors'); 
 
 const app = express();
 const port = 8000;
 
-// ✅ Enable CORS for all origins
 app.use(cors());
-
-// Optional: restrict to only your frontend
-// app.use(cors({ origin: 'http://localhost:5173' }));
 
 app.use(bodyParser.json());
 
@@ -51,7 +33,14 @@ const routeFiles = [
   'list_subscriber_users',
   'lists',
   'message_activity_emp',
-  'message_activity_emp_kind'
+  'message_activity_emp_kind',
+  'masters_ministry_categories',
+  'masters_ministries',
+  'organization_type',
+  'users',
+  'active_user',
+  'app_message_activity',
+  'registration_activity'
 ];
 
 routeFiles.forEach(route => {

@@ -27,8 +27,13 @@ const pool = require('../db');
 // GET all
 exports.getAll = async (req, res) => {
   try {
+    const countResult = await pool.query('SELECT COUNT(*) FROM "gim"."organization_unit"');
     const result = await pool.query('SELECT * FROM "gim"."organization_unit"');
-    res.json(result.rows);
+    // res.json(result.rows);
+    res.json({
+      totalCount: parseInt(countResult.rows[0].count, 10), // convert string to number
+      data: result.rows,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
