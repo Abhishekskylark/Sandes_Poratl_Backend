@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); 
+const cors = require('cors');
 
 const app = express();
 const port = 8000;
@@ -10,37 +10,38 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const routeFiles = [
+  'active_user',
+  'app_message_activity',
   'country',
-  'masters_states',
-  'masters_districts',
-  'organization',
-  'employee_level',
-  'portal_users',
-  'employee',
-  'employee_group_admins',
-  'employee_rejection',
-  'group_member',
-  'employee_messages',
-  'group',
-  'portal_metadata',
-  'organization_unit',
   'designation',
-  'file_detail',
-  'masters_genders',
+  'employee',
   'employee_apps',
+  'employee_group_admins',
+  'employee_level',
+  'employee_messages',
   'employee_migration_status',
+  'employee_rejection',
+  'file_detail',
+  'group',
+  'group_member',
   'list_publisher',
   'list_subscriber_users',
   'lists',
+  'masters_districts',
+  'masters_genders',
+  'masters_ministries',
+  'masters_ministry_categories',
+  'masters_states',
   'message_activity_emp',
   'message_activity_emp_kind',
-  'masters_ministry_categories',
-  'masters_ministries',
+  'organization',
   'organization_type',
+  'organization_unit',
+  'portal_metadata',
+  'portal_users',
+  'registration_activity',
   'users',
-  'active_user',
-  'app_message_activity',
-  'registration_activity'
+
 ];
 
 routeFiles.forEach(route => {
