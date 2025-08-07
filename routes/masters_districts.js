@@ -1,3 +1,4 @@
+
 // const express = require('express');
 // const router = express.Router();
 // const controller = require('../controllers/masters_districtsController');
@@ -9,9 +10,11 @@
 
 
 
+
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/masters_districtsController');
+
 
 router.get('/', controller.getAll); // Handles both all & filtered by query
 router.post('/', controller.create);

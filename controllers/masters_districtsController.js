@@ -1,3 +1,4 @@
+
 // const pool = require('../db');
 
 // exports.getAll = async (req, res) => {
@@ -33,11 +34,13 @@
 
 
 
+
 const pool = require('../db');
 
+// GET all districts, optionally filtered by state_id
 exports.getAll = async (req, res) => {
   try {
-    const { state_id } = req.query; // <-- Use query parameter
+    const { state_id } = req.query;
 
     let result;
     if (state_id) {
@@ -55,12 +58,13 @@ exports.getAll = async (req, res) => {
   }
 };
 
+// CREATE a new district (currently with default values)
 exports.create = async (req, res) => {
   try {
-    // Customize this based on your actual table schema if needed
     const result = await pool.query(
       'INSERT INTO "gim"."masters_districts" DEFAULT VALUES RETURNING *'
     );
+
     res.status(201).json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
